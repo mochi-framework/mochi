@@ -1,7 +1,8 @@
 {
   "name": "mochi",
   "version": "0.0.3",
-  "module": "src/index.js",
+  "main": "lib/index.ts",
+  "module": "lib/index.ts",
   "devDependencies": {
     "bun-types": "latest",
     "commitlint": "^17.0.3",
