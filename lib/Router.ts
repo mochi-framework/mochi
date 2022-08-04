@@ -1,4 +1,4 @@
-class Router {
+export class Router {
   private router: object
   constructor() {}
 
