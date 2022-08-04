@@ -1,8 +1,11 @@
 import { Router } from './Router'
-class App extends Router {
+export class App extends Router {
   constructor(private config: object = {}) {
     super()
   }
 
+  /**
+   * Method to start app and listen to incoming requests
+   */
   listen() {}
 }
