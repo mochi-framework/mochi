@@ -7,5 +7,7 @@ export class App extends Router {
   /**
    * Method to start app and listen to incoming requests
    */
-  listen() {}
+  listen() {
+    //TODO: Implement server listener
+  }
 }
