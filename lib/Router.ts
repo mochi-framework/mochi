@@ -1,49 +1,57 @@
-import { RouteMap } from './types'
+import { Endpoint, Middleware, RouteMap } from './types'
 
 export class Router {
   private router: RouteMap
 
-  constructor() {}
-
   /**
    * Method for seting middlewares/router
    */
-  use() {
+  use(arg1: string | Middleware, ...rest: Middleware[]) {
     // TODO: Implement middleware/router setter
   }
 
   /**
    * Method for seting GET method handlers
    */
-  get() {
+  get(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
+    const endpoint = rest.length ? rest.pop() : mix
+    const middlewares = rest.length ? [mix, ...rest] : []
     // TODO: Implement GET handler setter
   }
 
   /**
    * Method for seting POST method handlers
    */
-  post() {
+  post(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
+    const endpoint = rest.length ? rest.pop() : mix
+    const middlewares = rest.length ? [mix, ...rest] : []
     // TODO: Implement POST handler setter
   }
 
   /**
    * Method for seting PUT method handlers
    */
-  put() {
+  put(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
+    const endpoint = rest.length ? rest.pop() : mix
+    const middlewares = rest.length ? [mix, ...rest] : []
     // TODO: Implement PUT handler setter
   }
 
   /**
    * Method for seting DELETE method handlers
    */
-  delete() {
+  delete(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
+    const endpoint = rest.length ? rest.pop() : mix
+    const middlewares = rest.length ? [mix, ...rest] : []
     // TODO: Implement DELETE handler setter
   }
 
   /**
    * Method for seting * method handlers
    */
-  all() {
+  all(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
+    const endpoint = rest.length ? rest.pop() : mix
+    const middlewares = rest.length ? [mix, ...rest] : []
     // TODO: Implement * handler setter
   }
   /**
