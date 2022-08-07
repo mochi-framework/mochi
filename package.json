@@ -11,5 +11,8 @@
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1",
     "husky": "^8.0.1"
+  },
+  "scripts": {
+    "dev": "nodemon examples/main.ts"
   }
 }
