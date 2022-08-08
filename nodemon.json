@@ -3,5 +3,9 @@
   "ignore": ["*.test.js", "fixtures/*"],
   "execMap": {
     "ts": "bun run"
+  },
+  "events": {
+    "start": "osascript -e 'display notification \"App started\" with title \"nodemon - mochi\"'",
+    "exit": "osascript -e 'display notification \"App stopped\" with title \"nodemon - mochi\"'"
   }
 }

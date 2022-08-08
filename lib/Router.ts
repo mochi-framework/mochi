@@ -4,14 +4,14 @@ export class Router {
   private router: RouteMap
 
   /**
-   * Method for seting middlewares/router
+   * Method for setting middlewares/router
    */
   use(arg1: string | Middleware, ...rest: Middleware[]) {
     // TODO: Implement middleware/router setter
   }
 
   /**
-   * Method for seting GET method handlers
+   * Method for setting GET method handlers
    */
   get(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
     const endpoint = rest.length ? rest.pop() : mix
@@ -20,7 +20,7 @@ export class Router {
   }
 
   /**
-   * Method for seting POST method handlers
+   * Method for setting POST method handlers
    */
   post(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
     const endpoint = rest.length ? rest.pop() : mix
@@ -29,7 +29,7 @@ export class Router {
   }
 
   /**
-   * Method for seting PUT method handlers
+   * Method for setting PUT method handlers
    */
   put(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
     const endpoint = rest.length ? rest.pop() : mix
@@ -38,7 +38,7 @@ export class Router {
   }
 
   /**
-   * Method for seting DELETE method handlers
+   * Method for setting DELETE method handlers
    */
   delete(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
     const endpoint = rest.length ? rest.pop() : mix
@@ -47,7 +47,7 @@ export class Router {
   }
 
   /**
-   * Method for seting * method handlers
+   * Method for setting * method handlers
    */
   all(path: string, mix: Middleware | Endpoint, ...rest: (Middleware | Endpoint)[]) {
     const endpoint = rest.length ? rest.pop() : mix
