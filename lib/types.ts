@@ -13,34 +13,27 @@ export interface Config {
   }
 }
 
+export enum HandlerType {
+  MIDDLEWARE,
+  ENDPOINT,
+  ROUTER,
+}
+
+export type Method = 'get' | 'post' | 'put' | 'delete' | 'patch' | 'options' | 'all'
+
 export type Endpoint = (req: MochiRequest, res: MochiResponse) => Promise<Response> | Response
-
 export type Middleware = (req: MochiRequest, res: MochiResponse) => Promise<Response | void> | Response | void
-
-export type Method = 'get' | 'post' | 'put' | 'delete' | 'all'
-export interface Route {
-  get?: {
-    handler?: Endpoint
-    middlewares?: Middleware[]
-  }
-  post?: {
-    handler?: Endpoint
-    middlewares?: Middleware[]
-  }
-  put?: {
-    handler?: Endpoint
-    middlewares?: Middleware[]
-  }
-  delete?: {
-    handler?: Endpoint
-    middlewares?: Middleware[]
-  }
-  all?: {
-    handler?: Endpoint
-    middlewares?: Middleware[] // When using use
-  }
+export type Route = Partial<
+  Record<
+    Method,
+    {
+      endpoint?: Endpoint
+      middlewares?: Middleware[]
+    }
+  >
+> & {
+  children: RouteMap
   router?: Router
-  children?: RouteMap
   paramName?: string
 }
 
