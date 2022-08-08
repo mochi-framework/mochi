@@ -13,11 +13,16 @@ export interface Config {
   }
 }
 
-export type Endpoint = (req: MochiRequest, res: MochiResponse) => Promise<Response> | Response
-
-export type Middleware = (req: MochiRequest, res: MochiResponse) => Promise<Response | void> | Response | void
+export enum HandlerType {
+  MIDDLEWARE,
+  ENDPOINT,
+  ROUTER,
+}
 
 export type Method = 'get' | 'post' | 'put' | 'delete' | 'all'
+
+export type Endpoint = (req: MochiRequest, res: MochiResponse) => Promise<Response> | Response
+export type Middleware = (req: MochiRequest, res: MochiResponse) => Promise<Response | void> | Response | void
 export interface Route {
   get?: {
     handler?: Endpoint
