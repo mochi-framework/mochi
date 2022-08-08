@@ -1,4 +1,5 @@
 import { Router } from './Router'
+
 export class App extends Router {
   constructor(private config: object = {}) {
     super()
