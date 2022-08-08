@@ -16,7 +16,7 @@ export class Router {
 
       const isParam = part.startsWith(':')
       const targetPath = isParam ? ':' : part
-      const targetRoute: Route = {
+      const targetRoute: Route = current.get(targetPath) ?? {
         children: new Map(),
       }
 
