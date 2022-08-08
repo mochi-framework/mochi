@@ -32,6 +32,7 @@ export class Router {
 
     if (type === HandlerType.ENDPOINT) {
       route[method].handler = handler as Endpoint
+      current.set('', route)
       return
     }
 
