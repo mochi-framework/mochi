@@ -10,5 +10,6 @@ export class App extends Router {
    */
   listen() {
     //TODO: Implement server listener
+    console.log(this.router)
   }
 }
