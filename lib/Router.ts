@@ -1,4 +1,6 @@
-import { Endpoint, Method, Middleware, RouteMap, Route, HandlerType } from './types'
+import { MochiRequest } from './MochiRequest'
+import { MochiResponse } from './MochiResponse'
+import { Endpoint, HandlerType, Method, Middleware, Route } from './types'
 
 export class Router {
   protected router: Route = {
@@ -131,10 +133,81 @@ export class Router {
   all(path: string, ...rest: [...Middleware[], Endpoint]) {
     this.processHandlers('all', path, rest)
   }
+
+  async handleMiddlewares(req: MochiRequest, res: MochiResponse, middlewares: Middleware[]): Promise<Response | null> {
+    for (const middleware of middlewares) {
+      const response = await middleware(req, res)
+      if (response) {
+        return response
+      }
+    }
+  }
+
   /**
    * Method to handle current request and find corresponding handler
    */
-  route() {
-    // TODO: Implement request handler
+  async route(path: string, req: MochiRequest, res: MochiResponse): Promise<Response> {
+    const parts = path.split('/')
+    const method = req.method.toLocaleLowerCase() as Method
+    let targetRoute = this.router
+    let targetMap = targetRoute.children
+
+    // Check global middlewares
+    if (targetRoute?.all?.middlewares) {
+      let response = await this.handleMiddlewares(req, res, targetRoute.all.middlewares)
+      if (response) {
+        return response
+      }
+    }
+    if (targetRoute?.[method]?.middlewares) {
+      let response = await this.handleMiddlewares(req, res, targetRoute[method].middlewares)
+      if (response) {
+        return response
+      }
+    }
+    // Continue in routing
+    for (let part of parts) {
+      if (part === '') continue
+      let hasParam = false
+      if (!targetMap.has(part)) {
+        // Check for param
+        if (targetMap.has(':')) {
+          hasParam = true
+          req.params[targetMap.get(':').paramName] = part
+          // Check for router
+        } else if (targetRoute.router) {
+          return targetRoute.router.route(parts.slice(1).join('/'), req, res)
+          // Handle invalid path
+        } else {
+          return res.lost('Invalid path')
+        }
+      }
+      targetRoute = targetMap.get(hasParam ? ':' : part)
+      targetMap = targetRoute.children
+      // Check path middlewares
+      if (targetRoute?.all?.middlewares) {
+        let response = await this.handleMiddlewares(req, res, targetRoute.all.middlewares)
+        if (response) {
+          return response
+        }
+      }
+      if (targetRoute?.[method]?.middlewares) {
+        let response = await this.handleMiddlewares(req, res, targetRoute[method].middlewares)
+        if (response) {
+          return response
+        }
+      }
+    }
+
+    // Handle found path
+
+    const handler = targetRoute?.[method]?.endpoint ?? targetRoute?.all?.endpoint
+    if (handler) {
+      return await handler(req, res)
+    }
+    if (targetRoute.router) {
+      return targetRoute.router.route(parts.slice(1, -1).join('/'), req, res)
+    }
+    return res.lost('Undefined route')
   }
 }
