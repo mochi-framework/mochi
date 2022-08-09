@@ -1,5 +1,4 @@
-import { App, MochiRequest, MochiResponse } from '../lib'
-import { Router } from '../lib/Router'
+import { App, MochiRequest, MochiResponse, Router } from '../lib'
 
 const app = new App()
 
