@@ -1,4 +1,6 @@
 import { Server } from 'bun'
+import { MochiRequest } from './MochiRequest'
+import { MochiResponse } from './MochiResponse'
 import { Router } from './Router'
 import { Config } from './types'
 
@@ -16,11 +18,22 @@ export class App extends Router {
    * Method to start app and listen to incoming requests
    */
   listen(): Server {
-    //TODO: Implement server listener
     const server = Bun.serve({
-      fetch: (req: Request): Response => {
-        const path = '/' + req.url.replace(server.hostname, '')
-        return new Response(`Thank you for visiting ${path}`)
+      fetch: async (req: MochiRequest): Promise<Response> => {
+        const fullPath = '/' + req.url.replace(server.hostname, '')
+        const [path, rawParams] = fullPath.split('?')
+        let params = {}
+        if (rawParams) {
+          params = rawParams.split('&').reduce((acc, param) => {
+            const [key, val] = param.split('=')
+            acc[key] = val
+            return acc
+          }, {})
+        }
+        req.query = params
+        req.params = {}
+        req.body = await req.json()
+        return this.route(path, req, new MochiResponse())
       },
       port: this.config.port,
       ...(this.config.host ? { hostname: this.config.host } : {}),
