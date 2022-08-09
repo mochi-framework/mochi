@@ -6,11 +6,8 @@ export type Params = { [key: string]: string }
 export type QueryParams = { [key: string]: string }
 export type Body = { [key: string]: any }
 export interface Config {
-  port: number
+  port?: number
   host?: string
-  globals?: {
-    [key: string]: any
-  }
 }
 
 export enum HandlerType {
