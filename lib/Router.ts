@@ -71,17 +71,21 @@ export class Router {
   /**
    * Method for setting middlewares/router
    */
-  use(arg1: string | Middleware, ...rest: Middleware[]) {
-    let middlewares = [arg1, ...rest]
+  use(arg1: string | Middleware | Router, ...rest: Array<Middleware | Router>) {
+    let handlers = [arg1, ...rest]
     let path = '/'
 
     if (typeof arg1 === 'string') {
       path = arg1
-      middlewares.shift()
+      handlers.shift()
     }
 
-    for (let middleware of middlewares as Middleware[]) {
-      this.setupPath(path, middleware, HandlerType.MIDDLEWARE, 'all')
+    for (let handler of handlers as Array<Middleware | Router>) {
+      if (handler instanceof Router) {
+        this.setupPath(path, handler, HandlerType.ROUTER, 'all')
+        continue
+      }
+      this.setupPath(path, handler, HandlerType.MIDDLEWARE, 'all')
     }
   }
 
