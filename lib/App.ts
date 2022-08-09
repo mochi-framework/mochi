@@ -3,8 +3,13 @@ import { Router } from './Router'
 import { Config } from './types'
 
 export class App extends Router {
-  constructor(private config: Config) {
+  constructor(private config: Config = {}) {
     super()
+
+    this.config = {
+      port: 3000,
+      ...config,
+    }
   }
 
   /**
