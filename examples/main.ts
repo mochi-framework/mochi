@@ -4,15 +4,15 @@ import { Router } from '../lib/Router'
 const app = new App()
 
 app.get('/', (req: MochiRequest, res: MochiResponse) => {
-  return res.json({ x: 'y' })
+  return res.json({ x: '/' })
 })
 
 app.get('/user', (req: MochiRequest, res: MochiResponse) => {
-  return res.json({ x: 'y' })
+  return res.json({ x: '/user' })
 })
 
 app.get('/whatever/:id', (req: MochiRequest, res: MochiResponse) => {
-  return res.json({ x: 'y', param: req.params['id'], query: req.query['l'] })
+  return res.json({ x: '/whatever/id', param: req.params['id'], query: req.query['l'] })
 })
 
 app.get(

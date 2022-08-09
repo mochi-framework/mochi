@@ -150,8 +150,7 @@ export class Router {
   /**
    * Method to handle current request and find corresponding handler
    */
-  async route(path: string, req: MochiRequest, res: MochiResponse): Promise<Response> {
-    const parts = path.split('/')
+  async route(parts: string[], req: MochiRequest, res: MochiResponse): Promise<Response> {
     const method = req.method.toLocaleLowerCase() as Method
     let targetRoute = this.router
     let targetMap = targetRoute.children
@@ -170,7 +169,8 @@ export class Router {
       }
     }
     // Continue in routing
-    for (let part of parts) {
+    for (let idx in parts) {
+      const part = parts[idx]
       if (part === '') continue
       let hasParam = false
       if (!targetMap.has(part)) {
@@ -180,7 +180,7 @@ export class Router {
           req.params[targetMap.get(':').paramName] = part
           // Check for router
         } else if (targetRoute.router) {
-          return targetRoute.router.route(parts.slice(1).join('/'), req, res)
+          return targetRoute.router.route(parts.slice(Number(idx + 1)), req, res)
           // Handle invalid path
         } else {
           return res.lost('Invalid path')
@@ -201,6 +201,10 @@ export class Router {
           return response
         }
       }
+      if (targetRoute.router) {
+        console.log('Some router')
+        return targetRoute.router.route(parts.slice(Number(idx + 1)), req, res)
+      }
     }
 
     // Handle found path
@@ -210,7 +214,8 @@ export class Router {
       return await handler(req, res)
     }
     if (targetRoute.router) {
-      return targetRoute.router.route(parts.slice(1, -1).join('/'), req, res)
+      console.log('Found router')
+      return targetRoute.router.route(parts.slice(-1), req, res)
     }
     return res.lost('Undefined route')
   }

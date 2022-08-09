@@ -21,7 +21,7 @@ export class App extends Router {
     console.debug(this.router)
     const server = Bun.serve({
       fetch: async (req: MochiRequest): Promise<Response> => {
-        const fullPath = '/' + req.url.replace(server.hostname, '')
+        const fullPath = req.url.replace(server.hostname, '')
         const [path, rawParams] = fullPath.split('?')
         let params = {}
         if (rawParams) {
@@ -34,7 +34,7 @@ export class App extends Router {
         req.query = params
         req.params = {}
         req.body = await req.json()
-        return this.route(path, req, new MochiResponse())
+        return this.route(path.split('/'), req, new MochiResponse())
       },
       port: this.config.port,
       ...(this.config.host ? { hostname: this.config.host } : {}),
