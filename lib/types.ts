@@ -6,9 +6,9 @@ export type Params = { [key: string]: string }
 export type QueryParams = { [key: string]: string }
 export type Body = { [key: string]: any }
 export interface Config {
-  host: string
   port: number
-  globals: {
+  host?: string
+  globals?: {
     [key: string]: any
   }
 }
