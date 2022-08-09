@@ -18,7 +18,6 @@ export class App extends Router {
    * Method to start app and listen to incoming requests
    */
   listen(): Server {
-    console.debug(this.router)
     const server = Bun.serve({
       fetch: async (req: MochiRequest): Promise<Response> => {
         const fullPath = req.url.replace(server.hostname, '')

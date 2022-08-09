@@ -202,7 +202,6 @@ export class Router {
         }
       }
       if (targetRoute.router) {
-        console.log('Some router')
         return targetRoute.router.route(parts.slice(Number(idx + 1)), req, res)
       }
     }
@@ -214,7 +213,6 @@ export class Router {
       return await handler(req, res)
     }
     if (targetRoute.router) {
-      console.log('Found router')
       return targetRoute.router.route(parts.slice(-1), req, res)
     }
     return res.lost('Undefined route')
