@@ -28,4 +28,5 @@ app.use((req, res) => {
   console.log('Hello World')
 })
 
-app.listen()
+const server = app.listen()
+console.log(`[i] Server is running at ${server.hostname}`)
