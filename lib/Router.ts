@@ -1,6 +1,6 @@
 import { MochiRequest } from './MochiRequest'
 import { MochiResponse } from './MochiResponse'
-import { Endpoint, HandlerType, Method, Middleware, Route } from './types'
+import { Endpoint, HandlerType, Method, Middleware, Route, MethodHandler } from './types'
 
 export class Router {
   protected router: Route = {
@@ -92,49 +92,49 @@ export class Router {
   /**
    * Method for setting GET method handlers
    */
-  get(path: string, ...rest: [...Middleware[], Endpoint]) {
+  get: MethodHandler = (path: string, ...rest: [...Middleware[], Endpoint]) => {
     this.processHandlers('get', path, rest)
   }
 
   /**
    * Method for setting POST method handlers
    */
-  post(path: string, ...rest: [...Middleware[], Endpoint]) {
+  post: MethodHandler = (path: string, ...rest: [...Middleware[], Endpoint]) => {
     this.processHandlers('post', path, rest)
   }
 
   /**
    * Method for setting PUT method handlers
    */
-  put(path: string, ...rest: [...Middleware[], Endpoint]) {
+  put: MethodHandler = (path: string, ...rest: [...Middleware[], Endpoint]) => {
     this.processHandlers('put', path, rest)
   }
 
   /**
    * Method for setting DELETE method handlers
    */
-  delete(path: string, ...rest: [...Middleware[], Endpoint]) {
+  delete: MethodHandler = (path: string, ...rest: [...Middleware[], Endpoint]) => {
     this.processHandlers('delete', path, rest)
   }
 
   /**
    * Method for setting PATCH method handlers
    */
-  patch(path: string, ...rest: [...Middleware[], Endpoint]) {
+  patch: MethodHandler = (path: string, ...rest: [...Middleware[], Endpoint]) => {
     this.processHandlers('patch', path, rest)
   }
 
   /**
    * Method for setting OPTIONS method handlers
    */
-  options(path: string, ...rest: [...Middleware[], Endpoint]) {
+  options: MethodHandler = (path: string, ...rest: [...Middleware[], Endpoint]) => {
     this.processHandlers('options', path, rest)
   }
 
   /**
    * Method for setting * method handlers
    */
-  all(path: string, ...rest: [...Middleware[], Endpoint]) {
+  all: MethodHandler = (path: string, ...rest: [...Middleware[], Endpoint]) => {
     this.processHandlers('all', path, rest)
   }
 
@@ -218,3 +218,9 @@ export class Router {
     return res.lost('Undefined route')
   }
 }
+
+const r = new Router()
+r.get('/pica/:kook', (req, res) => {
+  req.params.kook
+  return new Response('ok')
+})
